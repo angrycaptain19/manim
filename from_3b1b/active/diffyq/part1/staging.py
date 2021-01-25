@@ -32,19 +32,6 @@ class VectorFieldTest(Scene):
         self.add(plane, field)
         return
 
-        stream_lines = StreamLines(
-            field.func,
-            delta_x=0.5,
-            delta_y=0.5,
-        )
-        animated_stream_lines = AnimatedStreamLines(
-            stream_lines,
-            line_anim_class=ShowPassingFlashWithThinningStrokeWidth,
-        )
-
-        self.add(plane, field, animated_stream_lines)
-        self.wait(10)
-
 
 class ShowRect(Scene):
     CONFIG = {
@@ -258,13 +245,12 @@ class TourOfDifferentialEquations(MovingCameraScene):
 
     def get_square_wave_approx(self, N, color):
         return FunctionGraph(
-            lambda x: sum([
-                (1 / n) * np.sin(n * PI * x)
-                for n in range(1, 2 * N + 3, 2)
-            ]),
+            lambda x: sum(
+                (1 / n) * np.sin(n * PI * x) for n in range(1, 2 * N + 3, 2)
+            ),
             x_min=0,
             x_max=2,
-            color=color
+            color=color,
         )
 
     def add_laplace_symbol(self, thumbnail):
@@ -877,7 +863,7 @@ class SimpleProjectileEquation(ShowGravityAcceleration):
                 ("-g", "t", "+", "v_0",),
             ]
         ]
-        for x in range(2):
+        for _ in range(2):
             answer1.submobjects.insert(
                 4, VectorizedPoint(answer1[4].get_left())
             )
@@ -972,7 +958,7 @@ class SimpleProjectileEquation(ShowGravityAcceleration):
         answer1.scale(0.8)
         answer2.scale(0.8)
         for deriv, terms in zip(derivs, all_terms):
-            for x in range(len(all_terms[-1]) - len(terms)):
+            for _ in range(len(all_terms[-1]) - len(terms)):
                 n = 2 + len(terms)
                 deriv.submobjects.insert(
                     n, VectorizedPoint(deriv[n].get_left())
@@ -2298,11 +2284,10 @@ class ThreeBodiesInSpace(SpecialThreeDScene):
             center - center2
             for center2 in centers
         ]
-        velocity = 0.2 * mass * normalize(np.cross(*filter(
+        return 0.2 * mass * normalize(np.cross(*filter(
             lambda diff: get_norm(diff) > 0,
             to_others
         )))
-        return velocity
 
     def add_trajectories(self):
         def update_trajectory(traj, dt):
@@ -2324,7 +2309,7 @@ class ThreeBodiesInSpace(SpecialThreeDScene):
         # Break it up to see partial files as
         # it's rendered
         self.add(bodies)
-        for x in range(int(self.play_time)):
+        for _ in range(int(self.play_time)):
             self.wait()
 
     #
@@ -2351,7 +2336,7 @@ class ThreeBodiesInSpace(SpecialThreeDScene):
         G = self.G
 
         num_mid_steps = 1000
-        for x in range(num_mid_steps):
+        for _ in range(num_mid_steps):
             for body in bodies:
                 acceleration = np.zeros(3)
                 for body2 in bodies:
@@ -2494,7 +2479,7 @@ class LoveExample(PiCreatureScene):
         you, tau = self.you, self.tau
         hearts = VGroup()
         n_hearts = 20
-        for x in range(n_hearts):
+        for _ in range(n_hearts):
             heart = SuitSymbol("hearts")
             heart.scale(0.5 + 2 * np.random.random())
             heart.shift(np.random.random() * 4 * RIGHT)

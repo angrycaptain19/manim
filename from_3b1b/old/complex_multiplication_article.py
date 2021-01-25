@@ -21,7 +21,7 @@ class SuccessiveComplexMultiplications(ComplexMultiplication):
 
     @staticmethod
     def args_to_string(*multipliers):
-        return "_".join([str(m)[1:-1] for m in  multipliers])
+        return "_".join(str(m)[1:-1] for m in  multipliers)
 
     @staticmethod
     def string_to_args(arg_string):
@@ -167,13 +167,10 @@ class DrawComplexAngleAndMagnitude(Scene):
     ]
     @staticmethod
     def args_to_string(*reps_and_nums):
-        return "--".join([
-            complex_string(num) 
-            for rep, num in reps_and_nums
-        ])
+        return "--".join(complex_string(num) for rep, num in reps_and_nums)
 
     def construct(self, *reps_and_nums):
-        radius = max([abs(n.imag) for r, n in reps_and_nums]) + 1
+        radius = max(abs(n.imag) for r, n in reps_and_nums) + 1
         plane_config = {
             "color" : "grey",
             "unit_to_spatial_width" : FRAME_Y_RADIUS / radius,

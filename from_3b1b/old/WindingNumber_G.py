@@ -275,7 +275,7 @@ class Introduce1DFunctionCase(Scene):
             Write(equation[1]),
             GrowArrow(equation_arrow),
         )
-        for x in range(4):
+        for _ in range(4):
             self.play(
                 FadeOut(v_line.copy()),
                 ShowCreation(v_line, rate_func = squish_rate_func(smooth, 0.5, 1)),
@@ -299,7 +299,7 @@ class Introduce1DFunctionCase(Scene):
         g_label = VGroup(self.g_label)
         axes = self.axes
         for label in f_label, g_label:
-            for x in range(2):
+            for _ in range(2):
                 label.add(VectorizedPoint(label.get_center()))
         for number in axes.y_axis.numbers:
             number.add_background_rectangle()
@@ -410,14 +410,11 @@ class Introduce1DFunctionCase(Scene):
         kwargs = {
             "mention_signs" : False,
             "show_decimal" : zoom,
-        } 
+        }
         for x in range(n_iterations - 1):
             x_mid = np.mean(end_points)
             leftovers_mid = self.compare_graphs_at_x(f_graph, g_graph, x_mid, **kwargs)
-            if leftovers_mid.too_high == all_leftovers[0].too_high:
-                index_to_fade = 0
-            else:
-                index_to_fade = 1
+            index_to_fade = 0 if leftovers_mid.too_high == all_leftovers[0].too_high else 1
             edge = [RIGHT, LEFT][index_to_fade]
             to_fade = all_leftovers[index_to_fade]
             all_leftovers.submobjects[index_to_fade] = leftovers_mid
@@ -2675,7 +2672,7 @@ class SearchSpacePerimeterVsArea(EquationSolver2d):
             path_parts.set_stroke, {"width" : 1},
         )
         self.remove(all_parts)
-        for x in range(2):
+        for _ in range(2):
             alt_path_parts.save_state()
             self.play(LaggedStartMap(
                 FadeIn, alt_path_parts,

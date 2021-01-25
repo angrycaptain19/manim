@@ -142,11 +142,11 @@ class BrownianMotion(Scene):
         return path
 
     def update_particles(self, particles, dt):
+        # Check particle collisions
+        buff = 0.01
         for p1 in particles:
             p1.center += p1.velocity * dt
 
-            # Check particle collisions
-            buff = 0.01
             for p2 in particles:
                 if p1 is p2:
                     continue

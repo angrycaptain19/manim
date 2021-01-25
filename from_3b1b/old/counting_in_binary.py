@@ -120,10 +120,10 @@ def five_char_binary(num):
     return (5-len(result))*"0" + result
 
 def read_reversed_binary(string):
-    return sum([
-        2**count if char == '1' else 0
+    return sum(
+        2 ** count if char == '1' else 0
         for count, char in zip(it.count(), string)
-    ])
+    )
 
 class LeftHand(Hand):
     def __init__(self, num, **kwargs):
@@ -274,9 +274,14 @@ class ShowReadingRule(Scene):
             count_mobs[1].shift(0.2*DOWN + 0.2*LEFT)
         if num in [6, 17]:
             hand.shift(0.8*LEFT)
-        sum_mobs = TexMobject(
-            " + ".join([str(2**c) for c in counts]).split(" ") + ["=%d"%num]
-        ).to_corner(UP+RIGHT).split()
+        sum_mobs = (
+            TexMobject(
+                " + ".join(str(2 ** c) for c in counts).split(" ") + ["=%d" % num]
+            )
+            .to_corner(UP + RIGHT)
+            .split()
+        )
+
         self.add(hand, *count_mobs)
         self.wait()
         self.play(*[

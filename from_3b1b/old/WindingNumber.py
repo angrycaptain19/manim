@@ -613,8 +613,7 @@ def walker_animation_with_display(
             number_update_func, 
             tracked_mobject = walker_anim.compound_walker.walker,
             **kwargs)
-        anim_group = AnimationGroup(walker_anim, display_anim, rate_func=linear)
-        return anim_group
+        return AnimationGroup(walker_anim, display_anim, rate_func=linear)
     else:
         return walker_anim
 
@@ -864,7 +863,7 @@ class PiWalkerRect(PiWalker):
         BL = BR + (-self.walk_width, 0)
         self.walk_coords = [TL, TR, BR, BL]
         if self.double_up:
-            self.walk_coords = self.walk_coords + self.walk_coords
+            self.walk_coords += self.walk_coords
         PiWalker.setup(self)
 
 class PiWalkerCircle(PiWalker):
@@ -948,7 +947,7 @@ class RectangleData():
         else:
             print("RectangleData.split_line_on_dim passed illegitimate dimension!")
 
-        return tuple([mid(x, y) for (x, y) in sides])
+        return tuple(mid(x, y) for (x, y) in sides)
 
 
 class EquationSolver2dNode(object):
@@ -960,7 +959,7 @@ class EquationSolver2dNode(object):
         if len(self.children) == 0:
             return 0
 
-        return 1 + max([n.depth() for n in self.children])
+        return 1 + max(n.depth() for n in self.children)
 
     def nodes_at_depth(self, n):
         if n == 0:
@@ -968,7 +967,7 @@ class EquationSolver2dNode(object):
 
         # Not the efficient way to flatten lists, because Python + is linear in list size,
         # but we have at most two children, so no big deal here
-        return sum([c.nodes_at_depth(n - 1) for c in self.children], [])
+        return sum((c.nodes_at_depth(n - 1) for c in self.children), [])
 
     # This is definitely NOT the efficient way to do BFS, but I'm just trying to write something
     # quick without thinking that gets the job done on small instances for now
@@ -977,7 +976,7 @@ class EquationSolver2dNode(object):
 
         # Not the efficient way to flatten lists, because Python + is linear in list size,
         # but this IS hacky_bfs...
-        return sum([self.nodes_at_depth(i) for i in range(depth + 1)], [])
+        return sum((self.nodes_at_depth(i) for i in range(depth + 1)), [])
 
     def display_in_series(self):
         return Succession(self.first_anim, *[n.display_in_series() for n in self.children])
@@ -1077,12 +1076,12 @@ class EquationSolver2d(ColorMappedObjectsScene):
 
         # Helper functions for manual_wind_override
         def head(m):
-            if m == None:
+            if m is None:
                 return None
             return m[0]
 
         def child(m, i):
-            if m == None or m == 0:
+            if m is None or m == 0:
                 return None
             return m[i + 1]
 
@@ -1248,10 +1247,9 @@ class EquationSolver2d(ColorMappedObjectsScene):
             time_in = alpha * rect_time_with_linger
             if time_in < 3 * run_time_base:
                 return fdiv(time_in, 4 * run_time_base)
-            else:
-                time_in_last_leg = time_in - 3 * run_time_base
-                alpha_in_last_leg = fdiv(time_in_last_leg, run_time_with_lingering)
-                return interpolate(0.75, 1, linger_rate(alpha_in_last_leg))
+            time_in_last_leg = time_in - 3 * run_time_base
+            alpha_in_last_leg = fdiv(time_in_last_leg, run_time_with_lingering)
+            return interpolate(0.75, 1, linger_rate(alpha_in_last_leg))
 
         border_anim = ShowCreation(
             border, 

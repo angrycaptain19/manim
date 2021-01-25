@@ -85,7 +85,7 @@ class ComplexFourierSeriesExample(FourierOfTrebleClef):
         new_path.shift(0.5 * UP)
 
         self.transition_to_alt_path(new_path)
-        for n in range(self.n_cycles):
+        for _ in range(self.n_cycles):
             self.run_one_cycle()
 
     def transition_to_alt_path(self, new_path, morph_path=False):
@@ -295,7 +295,7 @@ class PiFourierSeries(ComplexFourierSeriesExample):
         self.add_vectors_circles_path()
         self.add_top_row(self.vectors, self.circles)
 
-        for n in range(self.n_cycles):
+        for _ in range(self.n_cycles):
             self.run_one_cycle()
 
     def get_path(self):
@@ -996,11 +996,7 @@ class LabelRotatingVectors(PiFourierSeries):
         return VGroup(vector, circle)
 
     def get_exp_tex(self, freq=None):
-        if freq is None:
-            freq_str = "{}"
-        else:
-            freq_str = "{" + str(freq) + "}" + "\\cdot"
-
+        freq_str = "{}" if freq is None else "{" + str(freq) + "}" + "\\cdot"
         result = TexMobject(
             "e^{", freq_str, "2\\pi i {t}}",
             tex_to_color_map={
@@ -1719,7 +1715,7 @@ class ShowStepFunctionIn2dView(SimpleComplexExponentExample, ComplexFourierSerie
             self.vectors[1], GREEN, rate=0.5,
         )
         self.add(path)
-        for x in range(3):
+        for _ in range(3):
             self.run_one_cycle()
 
     #

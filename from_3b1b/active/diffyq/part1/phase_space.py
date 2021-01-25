@@ -328,7 +328,7 @@ class VisualizeStates(Scene):
         state.pendulum.start_swinging()
         trajectory = self.get_evolving_trajectory(dot)
         self.add(trajectory)
-        for x in range(20):
+        for _ in range(20):
             self.wait()
 
         # Talk through start
@@ -698,7 +698,7 @@ class IntroduceVectorField(VisualizeStates):
         trajectory = VMobject()
         trajectory.start_new_path(dot.get_center())
         dt = 0.01
-        for x in range(130):
+        for _ in range(130):
             p = trajectory.points[-1]
             dp_dt = self.vector_field_func(p)
             trajectory.add_smooth_curve_to(p + dp_dt * dt)
@@ -880,7 +880,7 @@ class IntroduceVectorField(VisualizeStates):
             GrowArrow(d_vect),
             FadeInFromDown(q_mark)
         )
-        for x in range(4):
+        for _ in range(4):
             angle = 90 * DEGREES
             self.play(
                 Rotate(
@@ -1031,7 +1031,7 @@ class ShowHighVelocityCase(ShowPendulumPhaseFlow, MovingCameraScene):
         traj.start_new_path(start_point)
         for x in range(int(time / dt)):
             last_point = traj.points[-1]
-            for y in range(added_steps):
+            for _ in range(added_steps):
                 dp_dt = field.func(last_point)
                 last_point += dp_dt * dt / added_steps
             traj.add_smooth_curve_to(last_point)

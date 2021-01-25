@@ -708,12 +708,10 @@ class ShowInfiniteSum(FourierSeriesIllustraiton):
             self.leave_mark(number_line, ps)
             self.wait()
 
-        count = 0
         num_moving_values = n_braces + 8
-        for ps in partial_sums[n_braces:num_moving_values]:
+        for count, ps in enumerate(partial_sums[n_braces:num_moving_values]):
             value_tracker.set_value(ps)
             self.leave_mark(number_line, ps)
-            count += 1
             term_count_tracker.increment_value(1)
             self.wait(0.5)
         decimal.remove_updater(decimal.updaters[-1])
@@ -1524,10 +1522,7 @@ class SwapIntegralAndSum(Scene):
             moving_exp.target[-1][0].set_stroke(opacity=1)
             moving_exp.target[-1][1].set_fill(opacity=1)
             moving_exp.target.next_to(exp1, UP, SMALL_BUFF)
-            if n < 0:
-                n_str = "{\\cdot" + str(abs(n)) + "}"
-            else:
-                n_str = "{" + str(n) + "}"
+            n_str = "{\\cdot" + str(abs(n)) + "}" if n < 0 else "{" + str(n) + "}"
             replacement1 = TexMobject(
                 "e^{", n_str, "\\cdot 2\\pi i", "{t}",
                 tex_to_color_map={
@@ -1783,7 +1778,7 @@ class ShowRangeOfCnFormulas(Scene):
         light_pink = interpolate_color(PINK, WHITE, 0.25)
         n_str = "{" + str(n) + "}"
         neg_n_str = "{" + str(-n) + "}"
-        expression = TexMobject(
+        return TexMobject(
             "c_" + n_str, "=",
             "\\int_0^1 f({t})",
             "e^{", neg_n_str,
@@ -1795,7 +1790,6 @@ class ShowRangeOfCnFormulas(Scene):
                 neg_n_str: YELLOW,
             }
         )
-        return expression
 
 
 class DescribeSVG(Scene):

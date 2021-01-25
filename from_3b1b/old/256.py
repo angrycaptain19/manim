@@ -170,10 +170,7 @@ class BreakUp2To256(PiCreatureScene):
         for i, bit in enumerate(reversed(new_bit_string)):
             index = -i-1
             bit_mob = self.bits[index]
-            if bit == "0":
-                new_mob = self.zero.copy()
-            else:
-                new_mob = self.one.copy()
+            new_mob = self.zero.copy() if bit == "0" else self.one.copy()
             new_mob.replace(bit_mob, dim_to_match = 1)
             Transform(bit_mob, new_mob).update(1)
         Scene.update_frame(self, *args, **kwargs)
@@ -203,7 +200,7 @@ class MainBreakdown(Scene):
     def add_four_billions(self):
         top_line = VGroup()
         four_billions = VGroup()
-        for x in range(8):
+        for _ in range(8):
             mob = TextMobject(
                 "$\\big($", "4 Billion", "$\\big)$",
                 arg_separator = ""
@@ -607,9 +604,7 @@ class MainBreakdown(Scene):
                 mob.set_width(max_width)
         numerator.next_to(h_line, UP, SMALL_BUFF)
         denominator.next_to(h_line, DOWN, SMALL_BUFF)
-        fraction = VGroup(numerator, h_line, denominator)
-
-        return fraction
+        return VGroup(numerator, h_line, denominator)
 
     def get_google_logo(self):
         return get_google_logo()

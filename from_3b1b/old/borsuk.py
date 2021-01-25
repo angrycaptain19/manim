@@ -207,7 +207,7 @@ class IntroduceStolenNecklaceProblem(ThreeDScene):
                 rate_func = wiggle
             )
         self.wait()
-        for x in range(self.num_shuffles):
+        for _ in range(self.num_shuffles):
             self.shuffle_jewels(jewels)
         self.play(FadeOut(self.title))
         for jewel_type, label in zip(jewel_types, enumeration_labels):
@@ -545,13 +545,13 @@ class RepeatedShuffling(IntroduceStolenNecklaceProblem):
         random.seed(self.random_seed)
         self.add(self.get_necklace())
         jewels = self.necklace.jewels
-        self.jewel_types = self.get_jewels_organized_by_type(jewels)     
+        self.jewel_types = self.get_jewels_organized_by_type(jewels)
         self.add_thieves()
         for thief in self.thieves:
             ApplyMethod(thief.change_mode, "pondering").update(1)
             thief.look_at(self.necklace)
 
-        for x in range(self.num_shuffles):
+        for _ in range(self.num_shuffles):
             self.shuffle_jewels(jewels)
             self.divvy_with_n_cuts(
                 show_matching_after_divvying = False
@@ -956,8 +956,7 @@ class WalkEquatorPostTransform(GraphScene):
             full_curve, 0, 0.5
         )
         second_half = first_half.copy().rotate_in_place(np.pi, RIGHT)
-        broken_curve = VGroup(first_half, second_half)
-        return broken_curve
+        return VGroup(first_half, second_half)
 
 class WalkAroundEquatorPreimage(ExternallyAnimatedScene):
     pass
@@ -2187,7 +2186,7 @@ class TotalLengthOfEachJewelEquals(NecklaceDivisionSphereAssociation, ThreeDScen
 
     def get_fair_division_indices(self, colors):
         colors = np.array(list(colors))
-        color_types = list(map(Color, set([c.get_hex_l() for c in colors])))
+        color_types = list(map(Color, {c.get_hex_l() for c in colors}))
         type_to_count = dict([
             (color, sum(colors == color))
             for color in color_types
@@ -2203,10 +2202,10 @@ class TotalLengthOfEachJewelEquals(NecklaceDivisionSphereAssociation, ThreeDScen
 
     def demonstrate_fair_division(self):
         segments, tick_marks = self.necklace
-        color_types = list(map(Color, set([
-            segment.get_color().get_hex_l()
-            for segment in segments
-        ])))
+        color_types = list(
+            map(Color, {segment.get_color().get_hex_l() for segment in segments})
+        )
+
         top_segments = VGroup(*it.chain(
             self.groups[0][0],
             self.groups[2][0],

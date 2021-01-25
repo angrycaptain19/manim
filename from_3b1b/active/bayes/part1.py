@@ -39,7 +39,6 @@ def get_bayes_formula(expand_denominator=False):
     formula.likelihood = formula[13:19]
 
     if expand_denominator:
-        pass
         formula.denom_prior = formula[20:24]
         formula.denom_likelihood = formula[25:31]
         formula.denom_anti_prior = formula[32:36]
@@ -307,11 +306,7 @@ class ProbabilityBar(VGroup):
         return labels
 
     def add_icons(self, *icons, buff=SMALL_BUFF):
-        if hasattr(self, "braces"):
-            refs = self.braces
-        else:
-            refs = self.bars
-
+        refs = self.braces if hasattr(self, "braces") else self.bars
         for icon, ref in zip(icons, refs):
             icon.ref = ref
             icon.add_updater(lambda i: i.next_to(

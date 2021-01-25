@@ -104,9 +104,10 @@ class TwoDBodyWithManyTemperatures(ThreeDScene):
             get_point(),
         ))
 
-        dot.add_updater(lambda p: p.move_to(
-            body[-1] if (1 < len(body)) else start_corner
-        ))
+        dot.add_updater(
+            lambda p: p.move_to(body[-1] if len(body) > 1 else start_corner)
+        )
+
         self.add(body, dot, lhs, decimal, arrow)
         self.play(
             ShowIncreasingSubsets(
@@ -2613,7 +2614,7 @@ class TransitionToContinuousCase(DiscreteSetup):
     def get_v_line(self, x, line_class=DashedLine, stroke_width=2):
         axes = self.axes
         graph = self.graph
-        line = line_class(
+        return line_class(
             axes.c2p(x, 0),
             graph.point_from_proportion(
                 inverse_interpolate(
@@ -2624,7 +2625,6 @@ class TransitionToContinuousCase(DiscreteSetup):
             ),
             stroke_width=stroke_width,
         )
-        return line
 
     def get_line_group(self,
                        x_tracker,
