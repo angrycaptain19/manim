@@ -113,7 +113,7 @@ class TemperatureGraphScene(SpecialThreeDScene):
         return axes
 
     def get_time_slice_graph(self, axes, func, t, **kwargs):
-        config = dict()
+        config = {}
         config.update(self.default_graph_style)
         config.update({
             "t_min": axes.x_min,
@@ -1198,7 +1198,7 @@ class AnalyzeSineCurve(TemperatureGraphScene):
                 )
             last_coef = coef
             last_exp = exp
-            prefix.target.next_to(coef, LEFT, SMALL_BUFF)
+            prefix.target.next_to(last_coef, LEFT, SMALL_BUFF)
             prefix.target.match_y(prefix)
             anims1.append(MoveToTarget(prefix))
 
@@ -1421,14 +1421,11 @@ class SineWaveScaledByExp(TemperatureGraphScene):
             ), LEFT)
         )
 
-        time_slices = VGroup(*[
-            self.get_time_slice_graph(
+        time_slices = VGroup(*[self.get_time_slice_graph(
                 self.axes,
                 self.sin_exp,
                 t=t,
-            )
-            for t in range(0, 10)
-        ])
+            ) for t in range(10)])
         surface_t_tracker = ValueTracker(0)
         surface = always_redraw(
             lambda: self.get_surface(
@@ -2741,10 +2738,7 @@ class ShowHarmonicSurfaces(ManipulateSinExpSurface):
         self.add_fixed_in_frame_mobjects(formula)
         self.wait(2)
         for n in range(2, self.n_iterations):
-            if n > 5:
-                n_str = "n"
-            else:
-                n_str = str(n)
+            n_str = "n" if n > 5 else str(n)
             new_formula = self.get_formula(n_str)
             self.play(
                 Transform(formula, new_formula),

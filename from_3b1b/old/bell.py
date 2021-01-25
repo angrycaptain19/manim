@@ -92,7 +92,7 @@ class PhotonPassesCompletelyOrNotAtAll(DirectionOfPolarizationScene):
             rate_func = squish_rate_func(there_and_back, 0.4, 0.6),
             run_time = filtered_photon.run_time
         )
-        for x in range(4):
+        for _ in range(4):
             self.play(
                 passing_photon,
                 filtered_photon,
@@ -168,7 +168,7 @@ class PhotonsThroughPerpendicularFilters(PhotonPassesCompletelyOrNotAtAll):
         self.shoot_photon()
         self.shoot_photon()
         self.play(FadeIn(prob_text))
-        for x in range(6):
+        for _ in range(6):
             self.shoot_photon()
 
     def reposition_filter_label(self, pf):
@@ -2009,7 +2009,7 @@ class VennDiagramProofByContradiction(Scene):
         rejected.sort(
             kay=lambda x, y: (x**2 + y**2)
         )
-        for i in range(len(photons) - len(pairs)):
+        for _ in range(len(photons) - len(pairs)):
             pairs.append(rejected.pop())
         for photon, (x, y) in zip(photons, pairs):
             photon.set_width(0.7)

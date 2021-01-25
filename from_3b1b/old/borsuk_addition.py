@@ -669,7 +669,7 @@ class FunctionGInputSpace(SpecialThreeDScene):
 
         self.play(point_mob.move_to, equator[0].point_from_proportion(0))
         self.play(ShowCreation(equator, run_time=4))
-        for x in range(2):
+        for _ in range(2):
             self.play(
                 Rotate(point_mob, PI, about_point=ORIGIN, axis=OUT),
                 run_time=4
@@ -978,7 +978,7 @@ class FunctionGOutputSpace(FunctionGInputSpace):
             ShowCreation(flat_eq),
             run_time=4,
         )
-        for x in range(2):
+        for _ in range(2):
             self.play(
                 Rotate(point_mob, PI, about_point=ORIGIN, axis=OUT),
                 run_time=4

@@ -200,10 +200,7 @@ class NumberlineTransformationScene(ZoomedScene):
 
     def get_zoomed_camera_frame_mapping_animation(self, func, x=None, **kwargs):
         frame = self.zoomed_camera.frame
-        if x is None:
-            point = frame.get_center()
-        else:
-            point = self.get_input_point(x)
+        point = frame.get_center() if x is None else self.get_input_point(x)
         point_mob = VectorizedPoint(point)
         return AnimationGroup(
             self.get_mapping_animation(func, point_mob),
@@ -278,8 +275,6 @@ class NumberlineTransformationScene(ZoomedScene):
 
         first_added_anims = first_added_anims or []
         first_anim_kwargs = first_anim_kwargs or {}
-        second_added_anims = second_added_anims or []
-        second_anim_kwargs = second_anim_kwargs or {}
         input_point = self.get_input_point(x)
 
         # Decide how to move camera frame into place
@@ -343,7 +338,9 @@ class NumberlineTransformationScene(ZoomedScene):
 
         if not self.zoom_activated and pop_out:
             self.activate_zooming(animate=False)
+            second_added_anims = second_added_anims or []
             added_anims = second_added_anims or []
+            second_anim_kwargs = second_anim_kwargs or {}
             self.play(
                 self.get_zoomed_display_pop_out_animation(),
                 *added_anims,
@@ -2752,13 +2749,10 @@ class NumericalPlayOnNumberLineFromOne(Scene):
             FadeOut(arrow)
         )
         self.wait()
-        for x in range(self.n_jumps):
+        for _ in range(self.n_jumps):
             new_value = self.func(value)
             new_point = number_line.number_to_point(new_value)
-            if new_value - value > 0:
-                path_arc = -120 * DEGREES
-            else:
-                path_arc = -120 * DEGREES
+            path_arc = -120 * DEGREES
             arc = Line(
                 point, new_point,
                 path_arc=path_arc,
@@ -2962,7 +2956,7 @@ class AnalyzeFunctionWithTransformations(NumberlineTransformationScene):
         ))
         self.show_arrows(sample_points)
         self.wait()
-        for x in range(self.num_initial_applications):
+        for _ in range(self.num_initial_applications):
             self.apply_function(
                 self.func,
                 apply_function_to_number_line=False,
@@ -3144,7 +3138,7 @@ class AnalyzeFunctionWithTransformations(NumberlineTransformationScene):
             FadeIn(approx_value)
         )
         self.wait()
-        for n in range(self.num_repeated_local_applications):
+        for _ in range(self.num_repeated_local_applications):
             self.apply_function(
                 self.func,
                 apply_function_to_number_line=False,
@@ -3201,7 +3195,7 @@ class AnalyzeFunctionWithTransformations(NumberlineTransformationScene):
             target_coordinate_values=local_coordinate_values,
         )
         self.wait()
-        for n in range(self.num_repeated_local_applications):
+        for _ in range(self.num_repeated_local_applications):
             self.apply_function(
                 self.func,
                 apply_function_to_number_line=False,

@@ -703,7 +703,7 @@ class ConstantEquals2(IntroducePhysicalModel):
         self.add(self.tip)
         self.add(self.output_label)
         self.play(VFadeIn(self.output_label))
-        for x in range(4):
+        for _ in range(4):
             self.wait_until(
                 lambda: self.position_vect.get_end()[0] > 0
             )

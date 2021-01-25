@@ -463,7 +463,7 @@ class CycleThroughManyLinearCombinations(CombineSeveralSolutions):
             self.add(graph)
 
         nst = len(scalar_trackers)
-        for x in range(self.n_cycles):
+        for _ in range(self.n_cycles):
             self.play(LaggedStart(*[
                 ApplyMethod(st.set_value, value)
                 for st, value in zip(

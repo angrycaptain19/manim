@@ -26,13 +26,12 @@ def get_ode():
             "{\\mu}": WHITE,
         }
     }
-    ode = TexMobject(
+    return TexMobject(
         "{\\ddot\\theta}({t})", "=",
         "-{\\mu} {\\dot\\theta}({t})",
         "-{g \\over L} \\sin\\big({\\theta}({t})\\big)",
         **tex_config,
     )
-    return ode
 
 
 def get_period_formula():

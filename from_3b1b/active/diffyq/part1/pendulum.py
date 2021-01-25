@@ -185,7 +185,7 @@ class Pendulum(VGroup):
         theta = self.get_theta()
         omega = self.get_omega()
         nspf = self.n_steps_per_frame
-        for x in range(nspf):
+        for _ in range(nspf):
             d_theta = omega * dt / nspf
             d_omega = op.add(
                 -self.damping * omega,

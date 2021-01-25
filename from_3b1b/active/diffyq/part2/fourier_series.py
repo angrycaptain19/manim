@@ -91,10 +91,7 @@ class FourierCirclesScene(Scene):
     def get_rotating_vector(self, coefficient, freq, center_func):
         vector = Vector(RIGHT, **self.vector_config)
         vector.scale(abs(coefficient))
-        if abs(coefficient) == 0:
-            phase = 0
-        else:
-            phase = np.log(coefficient).imag
+        phase = 0 if abs(coefficient) == 0 else np.log(coefficient).imag
         vector.rotate(phase, about_point=ORIGIN)
         vector.freq = freq
         vector.coefficient = coefficient
@@ -142,7 +139,7 @@ class FourierCirclesScene(Scene):
         freqs = [v.freq for v in vectors]
         center = vectors[0].get_start()
 
-        path = ParametricFunction(
+        return ParametricFunction(
             lambda t: center + reduce(op.add, [
                 complex_to_R3(
                     coef * np.exp(TAU * 1j * freq * t)
@@ -154,7 +151,6 @@ class FourierCirclesScene(Scene):
             color=color,
             step_size=self.parametric_function_step_size,
         )
-        return path
 
     # TODO, this should be a general animated mobect
     def get_drawn_path_alpha(self):
@@ -173,10 +169,7 @@ class FourierCirclesScene(Scene):
             n_curves = len(path)
             for a, sp in zip(np.linspace(0, 1, n_curves), path):
                 b = alpha - a
-                if b < 0:
-                    width = 0
-                else:
-                    width = stroke_width * (1 - (b % 1))
+                width = 0 if b < 0 else stroke_width * (1 - (b % 1))
                 sp.set_stroke(width=width)
             path.curr_time += dt
             return path
@@ -325,7 +318,7 @@ class FourierOfPiSymbol(FourierCirclesScene):
 
     def construct(self):
         self.add_vectors_circles_path()
-        for n in range(self.n_cycles):
+        for _ in range(self.n_cycles):
             self.run_one_cycle()
 
     def add_vectors_circles_path(self):
@@ -460,8 +453,7 @@ class FourierOfTrebleClef(FourierOfPiSymbol):
     }
 
     def get_shape(self):
-        shape = SVGMobject(self.file_name)
-        return shape
+        return SVGMobject(self.file_name)
 
     def get_path(self):
         shape = self.get_shape()
@@ -484,8 +476,7 @@ class FourierOfIP(FourierOfTrebleClef):
     #     self.add(path)
 
     def get_shape(self):
-        shape = SVGMobject(self.file_name)
-        return shape
+        return SVGMobject(self.file_name)
 
     def get_path(self):
         shape = self.get_shape()
@@ -529,8 +520,7 @@ class FourierNailAndGear(FourierOfTrebleClef):
     }
 
     def get_shape(self):
-        shape = SVGMobject("Nail_And_Gear")[1]
-        return shape
+        return SVGMobject("Nail_And_Gear")[1]
 
 
 class FourierBatman(FourierOfTrebleClef):
@@ -545,8 +535,7 @@ class FourierBatman(FourierOfTrebleClef):
     }
 
     def get_shape(self):
-        shape = SVGMobject("BatmanLogo")[1]
-        return shape
+        return SVGMobject("BatmanLogo")[1]
 
 
 class FourierHeart(FourierOfTrebleClef):
@@ -561,8 +550,7 @@ class FourierHeart(FourierOfTrebleClef):
     }
 
     def get_shape(self):
-        shape = SuitSymbol("hearts")
-        return shape
+        return SuitSymbol("hearts")
 
     def get_drawn_path(self, *args, **kwargs):
         kwargs["stroke_width"] = 5

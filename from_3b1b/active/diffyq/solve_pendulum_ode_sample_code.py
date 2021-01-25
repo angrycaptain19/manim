@@ -19,7 +19,7 @@ def theta(t):
     theta = THETA_0
     theta_dot = THETA_DOT_0
     delta_t = 0.01  # Some time step
-    for time in np.arange(0, t, delta_t):
+    for _ in np.arange(0, t, delta_t):
         # Take many little time steps of size delta_t
         # until the total time is the function's input
         theta_double_dot = get_theta_double_dot(
